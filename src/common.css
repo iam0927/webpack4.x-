@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+li {
+  list-style: none;
+}
+
+body {
+  background: rgb(236, 236, 232);
+}
+
+ul li:nth-child(odd) {
+  background: red;
+}
+
+ul li:nth-child(even) {
+  background: green;
+}
