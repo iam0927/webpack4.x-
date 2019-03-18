@@ -68,3 +68,7 @@ plugins中添加new webpack.ProvidePlugin
 - 配置source map
 
 - cleanwebpackplugin
+
+静态资源拷贝
+
+`copy-webpack-plugin`

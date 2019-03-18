@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
-
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   mode: 'production',
@@ -123,9 +123,11 @@ module.exports = {
        * 留坑给window.$
        */
     }),
-    new CleanWebpackPlugin({
-      
-    })
+    new CleanWebpackPlugin(),
+    new CopyWebpackPlugin([
+      { from: './src/assest', to: './assest'}
+    ]),
+    new webpack.BannerPlugin('Copyright © 2019 YeHeng All rights reserved.') // 版权声明
   ],
   optimization: { // 优化项
     minimizer: [
