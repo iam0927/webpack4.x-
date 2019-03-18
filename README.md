@@ -62,3 +62,9 @@ plugins中添加new webpack.ProvidePlugin
 - webpack打包图片
 
 `file-loader html-withimg-loader url-loader`
+
+- 打包分类
+
+- 配置source map
+
+- cleanwebpackplugin

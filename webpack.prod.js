@@ -5,13 +5,15 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
 
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename:'[name].bundle.[hash:8].js',
-    publicPath: '/'
+    publicPath: './'
   },
   devServer: {
     port: 8089,
@@ -26,9 +28,14 @@ module.exports = {
       { // 处理css
         test: /\.css$/, 
         use: [
-          MiniCssExtractPlugin.loader, 
           {
-            loader: 'css-loader'
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../'
+            }
+          }, 
+          {
+            loader: 'css-loader',
           },
           {
             loader: 'postcss-loader'
@@ -38,7 +45,12 @@ module.exports = {
       { // 处理less文件
         test: /\.less$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '../'
+            }
+          },
           {
             loader: 'css-loader'
           },
@@ -110,6 +122,9 @@ module.exports = {
       /**
        * 留坑给window.$
        */
+    }),
+    new CleanWebpackPlugin({
+      
     })
   ],
   optimization: { // 优化项
@@ -122,8 +137,5 @@ module.exports = {
       new OptimizeCssAssetsWebpackPlugin() // 压缩css
     ]
   },
-  devtool: 'source-map' // 源码映射，会生成单独的source map 文件
-  // devtool: 'eval-source-map' // 不会产生单独的文件
-  // devtool: 'cheap-module-source-map' // 不会产生列 是一个单独的映射文件
-  // devtool: 'cheap-module-eval-source-map' // 不会产生文件 集成在打包文件中 不会产生列
+  devtool: 'source-map'
 }
