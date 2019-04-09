@@ -2,24 +2,17 @@ const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
-const UglifyjsWebpackPlugin = require('uglifyjs-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  mode: 'development',
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename:'[name].bundle.[hash:8].js',
-    publicPath: '/'
+    filename:'[name].bundle.[hash:8].js'
   },
-  devServer: {
-    port: 8089,
-    progress: true, // 进度条
-    compress: true, // 压缩
-    open: true, // 自动打开浏览器
-    hot: true, // 热更新
-    hotOnly: true // 浏览器不会更新，在控制台显示热更行结果
+  resolve: { // 解析第三方 包
+    modules: [path.resolve('node_modules')],
+    extensions: ['.js', 'css', 'json']
   },
   module: { // 模块
     rules: [ // 处理相应的规则
@@ -110,20 +103,10 @@ module.exports = {
       /**
        * 留坑给window.$
        */
-    })
-  ],
-  optimization: { // 优化项
-    minimizer: [
-      new UglifyjsWebpackPlugin({
-        cache: true, //是否缓存
-        parallel: true, // 一起压缩多个
-        sourceMap: true // 源码映射
-      }), // 压缩js
-      new OptimizeCssAssetsWebpackPlugin() // 压缩css
-    ]
-  },
-  devtool: 'source-map' // 源码映射，会生成单独的source map 文件
-  // devtool: 'eval-source-map' // 不会产生单独的文件
-  // devtool: 'cheap-module-source-map' // 不会产生列 是一个单独的映射文件
-  // devtool: 'cheap-module-eval-source-map' // 不会产生文件 集成在打包文件中 不会产生列
+    }),
+    new CopyWebpackPlugin([
+      { from: './src/assest', to: './assest' }
+    ]),
+    new webpack.BannerPlugin('Copyright © 2019 YeHeng All rights reserved.') // 版权声明
+  ]
 }

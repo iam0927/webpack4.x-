@@ -3,6 +3,8 @@ import './index.less'
 
 require('./es6.js')
 
+require('./assest/js/static.js')
+
 import img from './spiderman.jpeg'
 
 let photo = new Image()
@@ -15,6 +17,6 @@ function sum(a, b) {
   return a + b
 }
 
-let getSum = sum(10, 20)
+let getSum = sum(14, 20)
 
 console.log(getSum)
